@@ -26,7 +26,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ICommand.h \
-    ThreadPool.h \
+    threadpool.h \
     commandqueue.h \
     radioconcreatecommand.h \
     radioremotecontrol.h \

@@ -26,10 +26,12 @@ int main(int argc, char* argv[])
     RadioService& radioService = RadioService::getInstance();
     RadioRemoteControl* remote = new RadioRemoteControl();  
 
-    ThreadPool threadPool(4);
+    ThreadPool threadPool(1);
 
     std::vector<RadioType::eRADIOCMD> commands =
-    {RadioType::eRADIOCMD::ON, RadioType::eRADIOCMD::OFF, RadioType::eRADIOCMD::GET_INFO};
+    {RadioType::eRADIOCMD::ON,
+     RadioType::eRADIOCMD::OFF,
+     RadioType::eRADIOCMD::GET_INFO};
 
     for(const auto& commandNum : commands) {
         RadioConcreateCommand* concreateCommand = new RadioConcreateCommand(&radioService);

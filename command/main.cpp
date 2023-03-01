@@ -37,6 +37,10 @@ int main(int argc, char* argv[])
         RadioConcreateCommand* concreateCommand = new RadioConcreateCommand(&radioService);
         concreateCommand->setCommand(commandNum);
 
+        if(commandNum == RadioType::eRADIOCMD::GET_INFO) {
+            concreateCommand->setMethod("Test");
+        }
+
         threadPool.enqueue([=, &remote]() {
             std::shared_ptr<ICommand> command = std::make_shared<RadioConcreateCommand>(*concreateCommand);
             remote->setCommand(command);

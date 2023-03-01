@@ -5,7 +5,6 @@ QT += quick
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        commandqueue.cpp \
         main.cpp \
         radioconcreatecommand.cpp \
         radioremotecontrol.cpp \
@@ -27,7 +26,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     ICommand.h \
     threadpool.h \
-    commandqueue.h \
     radioconcreatecommand.h \
     radioremotecontrol.h \
     radioservice.h \

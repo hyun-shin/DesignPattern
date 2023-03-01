@@ -8,6 +8,7 @@ public:
     static RadioService& getInstance();
     void on();
     void off();
+    void getInformation(const std::string& method);
 
 private:
     RadioService();

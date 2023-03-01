@@ -10,9 +10,13 @@ RadioService::RadioService() {
 }
 
 void RadioService::on() {
-    qDebug() << "Radio is on";
+    qDebug() << "RadioService::on()";
 }
 
 void RadioService::off() {
-    qDebug() << "Radio is off";
+    qDebug() << "RadioService::off()";
+}
+
+void RadioService::getInformation(const std::string& method) {
+    qDebug() << "RadioService::getInforamtion(): " << QString::fromStdString(method);
 }

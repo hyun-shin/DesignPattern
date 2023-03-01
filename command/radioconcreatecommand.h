@@ -10,10 +10,13 @@ public:
     RadioConcreateCommand(RadioService* radioservice);
     void setCommand(RadioType::eRADIOCMD cmd);
     void executeCommand() override;
+    void setMethod(const std::string& method) override;
 
 private:
-    RadioType::eRADIOCMD commandNum_;
     RadioService* radioservice_;
+
+    RadioType::eRADIOCMD commandNum_;
+    std::string method_;
 };
 
 #endif // RADIOCONCREATECOMMAND_H

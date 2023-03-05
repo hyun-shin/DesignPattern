@@ -5,10 +5,12 @@ QT += quick
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        appmanager.cpp \
+        invoker.cpp \
         main.cpp \
-        radioconcreatecommand.cpp \
-        radioremotecontrol.cpp \
-        radioservice.cpp
+        radiocommand.cpp \
+        receiver.cpp \
+        services/radioservice.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,9 +26,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    ICommand.h \
-    threadpool.h \
-    radioconcreatecommand.h \
-    radioremotecontrol.h \
-    radioservice.h \
-    radiotype.h
+    appmanager.h \
+    command.h \
+    invoker.h \
+    radiocommand.h \
+    receiver.h \
+    services/radioservice.h \
+    threadpool.h

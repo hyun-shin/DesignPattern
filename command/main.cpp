@@ -1,11 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-
-#include "radioservice.h"
-#include "radioconcreatecommand.h"
-#include "radioremotecontrol.h"
-#include "radiotype.h"
-#include "ThreadPool.h"
+#include <QQmlContext>
+#include <QQmlComponent>
+#include <QThreadPool>
+#include "AppManager.h"
 
 int main(int argc, char* argv[])
 {
@@ -14,40 +12,32 @@ int main(int argc, char* argv[])
 #endif
     QGuiApplication app(argc, argv);
 
+    //QThreadPool::globalInstance()->setMaxThreadCount(1);
+
     QQmlApplicationEngine engine;
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-    engine.load(url);
 
-    RadioService& radioService = RadioService::getInstance();
-    RadioRemoteControl* remote = new RadioRemoteControl();  
-
-    ThreadPool threadPool(1);
-
-    std::vector<RadioType::eRADIOCMD> commands =
-    {RadioType::eRADIOCMD::ON,
-     RadioType::eRADIOCMD::OFF,
-     RadioType::eRADIOCMD::GET_INFO};
-
-    for(const auto& commandNum : commands) {
-        RadioConcreateCommand* concreateCommand = new RadioConcreateCommand(&radioService);
-        concreateCommand->setCommand(commandNum);
-
-        if(commandNum == RadioType::eRADIOCMD::GET_INFO) {
-            concreateCommand->setMethod("Test");
-        }
-
-        threadPool.enqueue([=, &remote]() {
-            std::shared_ptr<ICommand> command = std::make_shared<RadioConcreateCommand>(*concreateCommand);
-            remote->setCommand(command);
-            remote->executeCommand();
-        });
+    QQmlComponent component(&engine, url);
+    if (component.isError()) {
+        qDebug() << "Error loading QML file:" << component.errors();
+    } else {
+        qDebug() << "QML file loaded successfully";
     }
 
-    delete remote;
+    engine.load(url);
+
+    QList<QObject*> rootObjects = engine.rootObjects();
+    QObject* mainQmlObject = rootObjects.first();
+    AppManager::setContext(engine.rootContext());
+    AppManager::setObject(mainQmlObject);
+    AppManager::registration();
+
+
     return app.exec();
 }
